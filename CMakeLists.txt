@@ -10,6 +10,8 @@ include(GNUInstallDirs)
 include(BuildPlatformDetection)
 include(SetProjectDependencies)
 
+option(INCLUDE_DEVEL "Include development tools" OFF)
+
 set(PYTHON_EXECUTABLE ${CMAKE_INSTALL_PREFIX}/bin/python3)
 
 # Build projects step
@@ -19,5 +21,12 @@ file(GLOB _projects projects/*.cmake)
 foreach(_project ${_projects})
     include(${_project})
 endforeach()
+
+if(INCLUDE_DEVEL)
+    file(GLOB _devel_projects devel/*.cmake)
+    foreach(_devel_project ${_devel_projects})
+        include(${_devel_project})
+    endforeach()
+endif()
 
 ProcessProjectDependencies(TARGET projects)
